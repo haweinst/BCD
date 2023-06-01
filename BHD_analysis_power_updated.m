@@ -1,7 +1,7 @@
 close all; clear all;
 q = 1.6e-19;
-g = 2.1e5;
-G = 1;    %%%FACTOR OF 2 FROM IMPEDANCE MIS-MATCH. REMAINDER OF GAIN IS FIT & FROM DATA SHEET
+g = 250e3; %v/W
+G = 1;     %A/W
 h = 6.626e-34;
 c = 3e8;
 lamb = 1550e-9;
@@ -26,9 +26,9 @@ for i = 1:1:s
     T_sym = dt*n; 
     
     N_LO =  str2double(power)*10^(-6)/E_p;
-    C = 1/(2*g*G*q*sqrt(N_LO*T_sym));
+    C = 1/(2*g*G*q*sqrt(N_LO*T_sym)); 
     
-    sig = arrayfun(@(i) C*sum(a(i:i+n-1)*dt),1:n:length(a)-n+1)'; % the averaged vector
+    sig = arrayfun(@(i) C*sum(a(i:i+n-1)*dt),1:n:length(a)-n+1)'; % the averaged vector V/(v/W*a/W*C*W^2)
     powers(i) = str2double(power);
     sigmas(i) = var(sig);
 end
